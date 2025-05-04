@@ -8,7 +8,6 @@
 using namespace std;
 
 //Function prototype for al lthe glorius function decomposition
-
 void addToLibrary(vector<vector<string>> &library, string book, string id);
 void checkOutStatus(const vector<vector<string>> &library);
 bool containsCommas(const string book);
@@ -21,3 +20,13 @@ void printMenu();
 void removeEntry(vector<vector<string> > &library, const string &searchBook, const int choice);
 void searchBook(const vector<vector<string> > &library, const string &search, const int choice);
 
+int main(){
+    
+    string command;
+    vector<vector<string> > library;
+
+    cout << "Welcome to the library Management System" << endl;
+    cout << "----------------------------------------" << endl;
+    cout << endl;
+
+}
