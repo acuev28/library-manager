@@ -30,6 +30,124 @@ int main(){
     cout << "----------------------------------------" << endl;
     cout << endl;
 
+
+     do 
+    {
+        // Output the menu and acquire a user selection
+        printMenu();
+        cout << endl << "Enter a command (case does not matter): ";
+
+        // We use getline for all user input to avoid needing to handle
+        // input buffer issues relating to using both >> and getline
+        getline(cin, command);
+        cout << endl;
+
+        // Execute non-exit commands
+        if (command == "L" || command == "l"){
+            string fileName;
+            cout << "What database to read from? " << endl;
+            getline(cin, fileName);
+            int lines = loadFile(fileName, library); //Returns the number of lines that were read from file
+            
+            if (lines != 0){
+                 cout << "Read in " << lines << " lines from the file." << endl;
+            }
+        }
+
+        else if (command == "d" || command == "D"){
+            displayLibrary(library);
+            if (library.size() == 0){
+                cout << "The library has no books." << endl;
+            }
+        }
+
+        else if (command == "P" || command == "p"){
+            checkOutStatus(library);
+        }
+
+        else if (command == "O" || command == "o"){
+            string filePrint;
+            getline(cin, filePrint);
+            outputLibrary(library, filePrint); //Writes library on file
+        }
+
+        else if (command == "I" || command == "i"){
+            printInvalidEntries(library);
+        }
+        else if (command == "C" || command == "c"){
+            library.clear();
+            cout << "Your library is now empty." << endl;
+        }
+
+        else if (command == "R" || command == "r"){
+            int searchTerm;
+            string title;
+            string isbn;
+            cout << "Would you like remove by (1) name or (2) ISBN." << endl;
+            cout << "Enter the numeric choice: " << endl;
+            cin >> searchTerm;
+            cin.ignore();
+            if (searchTerm == 1){
+                cout << "Enter the book name: ";
+                getline(cin, title);
+                cout << endl;
+                removeEntry(library, title, searchTerm);
+            }
+            else if (searchTerm == 2){
+                cout << "Enter the book 13-digit ISBN (with dashes): ";
+                getline(cin, isbn);
+                cout << endl;
+                removeEntry(library, isbn, searchTerm);
+            }
+            else {
+                cout << "Invalid remove by choice option." << endl;
+            }
+        }
+        else if (command == "A" || command == "a"){
+            string addBook;
+            string addDigit;
+            cout << "What is the book title? ";
+            getline(cin, addBook);
+            if (containsCommas(addBook)){
+                cout << "The book title cannot contain commas." << endl;
+            }
+            else{
+                cout << "\n";
+                cout << "What is the 13-digit ISBN (with hyphens)? ";
+                getline(cin, addDigit);
+                cout << "\n";
+                addToLibrary(library, addBook, addDigit);
+            }
+        }
+        else if (command == "S" || command == "s"){
+            int choice;
+            cout << "Would you like to search by (1) name or (2) ISBN." << endl;
+            cout << "Enter the numeric choice: " << endl;
+            cin >> choice;
+            cin.ignore();
+
+            if (choice == 1){
+                string title;
+                cout << "Enter the book name: ";
+                getline(cin, title);
+                cout << endl;
+                searchBook(library, title, choice);
+            }
+            else if (choice == 2){
+                string id;
+                cout << "Enter the book 13-digit ISBN (with dashes): ";
+                getline(cin, id);
+                cout << endl;
+                searchBook(library, id, choice);
+            }
+            else {
+                cout << "Invalid search by choice option." << endl;
+            }
+        }
+        cout << endl;
+    } while (!(command == "x" || command == "X"));
+
+    return 0;
 }
 
 //Adds book information the user library vector
