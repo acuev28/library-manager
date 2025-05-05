@@ -300,3 +300,46 @@ void removeEntry(vector<vector<string> > &library, const string &searchBook, int
         cout << "No matching entry found in the library." << endl;
     }
 }
+
+void searchBook(const vector<vector<string> > &library, const string &search, const int choice){
+    bool found = false;
+    vector<string> lastMatchingEntry;
+
+    cout << "The Following Are Your Search Results" << endl;
+    cout << "-------------------------------------" << endl;
+
+    for (size_t i = 0; i < library.size(); i++) {
+        string bookTitle = library[i][0];
+        string bookID = library[i][1];
+
+        if ((choice == 1 && bookTitle == search) || (choice == 2 && isValidISBN(bookID) && bookID == search)) {
+            lastMatchingEntry = library[i]; // Store the current matching entry
+            found = true;
+        }
+    }
+
+    if (found) {
+        cout << lastMatchingEntry[0] << " --- " << lastMatchingEntry[1] << " --- ";
+        int bookStatus = stoi(lastMatchingEntry[2]); // Convert bookStatus to integer
+        switch (bookStatus) {
+            case 0:
+                cout << "In Library";
+                break;
+            case 1:
+                cout << "Checked Out";
+                break;
+            case 2:
+                cout << "On Loan";
+                break;
+            case 3:
+                cout << "Unknown State";
+                break;
+            default:
+                cout << "Invalid State";
+        }
+        cout << endl;
+        } 
+    else {
+        cout << "No matching entry found in the library." << endl;
+    }
+}
