@@ -94,3 +94,35 @@ bool containsCommas(const string book){
     }
     return false;
 }
+
+// Display the whole library (bookTitle, ISBN number, checkout status)
+void displayLibrary(const vector<vector<string> > &library){
+    cout << "Your Current Library" << endl;
+    cout << "--------------------" << endl;
+
+    for (size_t i = 0; i < library.size(); i++){
+        string bookTitle = library[i][0];
+        string bookID = library[i][1];
+        int bookStatus = stoi(library[i][2]); // Convert bookStatus to integer
+        string status;
+
+        switch (bookStatus) {
+            case 0:
+                status = "In Library";
+                break;
+            case 1:
+                status = "Check Out";
+                break;
+            case 2:
+                status = "On Loan";
+                break;
+            case 3:
+                status = "Unknown State";
+                break;
+            default:
+                status = "Invalid State";
+        }
+
+        cout << bookTitle << " ---" << bookID << " --- " << status << endl;
+    }
+}
