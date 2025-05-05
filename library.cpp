@@ -217,3 +217,43 @@ void outputLibrary(const vector<vector<string> > &library, string fileName){
     }
     fLibrary.close();
 }
+
+// Checks the book information (ISBN and Check Out Status)
+void printInvalidEntries(const vector<vector<string> > &library){
+    cout << "The Following Library Entries Have Invalid Data" << endl;
+    cout << "-----------------------------------------------" << endl;
+
+    if (library.empty()){
+        cout << "The library has no books." << endl;
+        return;
+    }
+
+    bool notValid = false;
+    bool hasInvalidEntries = false;
+
+    for (size_t i = 0; i < library.size(); i++){
+        string bookTitle = library[i][0];
+        string bookID = library[i][1];
+        string bookStatus = library[i][2];
+
+        // Checking ISBN Validity
+        if (!isValidISBN(bookID)){
+            notValid = true;
+        }
+
+        // Checking status
+        int status = stoi(bookStatus);
+
+        if (status < 0 || status > 3){
+            cout << bookTitle << " --- " << bookID << " --- Invalid Status" << endl;
+            notValid = true;
+        }
+
+        if (notValid){
+            hasInvalidEntries = true;
+        }
+    }
+    if (hasInvalidEntries){
+        cout << "The library has no invalid entries." << endl;
+    }
+}
