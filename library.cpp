@@ -202,3 +202,18 @@ int loadFile(const string &fileName, vector<vector<string> > &library){
     readFile.close();
     return numOfLines;
 }
+
+// Creates file and write the books information
+void outputLibrary(const vector<vector<string> > &library, string fileName){
+    ofstream fLibrary(fileName);
+
+    for (size_t i = 0; i < library.size(); i++){
+        string book = library[i][0];
+        string bookISBN = library[i][1];
+        string bookStatus = library[i][2];
+        int status = stoi(bookStatus); //Convert bookStatus to integer
+
+        fLibrary << book << ", " << bookISBN << ", " << status << endl; 
+    }
+    fLibrary.close();
+}
