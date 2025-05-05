@@ -85,5 +85,12 @@ void checkOutStatus(const vector<vector<string> > &library){
     cout << "   On Loan: " << onLoan << endl;
     cout << "   Unknown: " << unknown << endl;
     cout << "   Other: " << other << endl;
+}
 
+// Check if book title contains a comma
+bool containsCommas(const string book){
+    if (book.find(",") != string::npos){
+        return true;
+    }
+    return false;
 }
