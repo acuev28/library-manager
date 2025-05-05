@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include <cctype>
 
 using namespace std;
@@ -125,4 +126,79 @@ void displayLibrary(const vector<vector<string> > &library){
 
         cout << bookTitle << " ---" << bookID << " --- " << status << endl;
     }
+}
+
+// Checks if the ISBN is valid
+bool isValidISBN(const string &isbn){
+    if (isbn.size() != 13){
+        return false;
+    }
+
+    int weightedSum = 0;
+
+    for (size_t i = 0; i < 12; i++){
+        int digit = isbn[i] - '0';
+        weightedSum += (i % 2 == 0) ? digit : digit * 3;
+    }
+
+    int remainder = weightedSum % 10;
+    int checkDigit = (remainder == 0) ? 0 : (10 - remainder);
+    int lastDigit = isbn[12] - '0';
+
+    return (checkDigit == lastDigit);
+}
+
+// Reads in file and stores the information to the library
+int loadFile(const string &fileName, vector<vector<string> > &library){
+    int numOfLines = 0;
+    string bookTitle;
+    string bookID;
+    string bookStatus;
+
+    ifstream readFile(fileName);
+
+    if (!readFile.is_open()){
+        cout << "Could not find the database file." << endl;
+        return 0; // Return 0 to indicate that no lines were read.
+    }
+
+    string line;
+    while (getline(readFile, line)){
+        // Set the bookTitle as the entire line by default
+        bookTitle = line;
+
+        // Finding the comma (,)
+        size_t comma = line.find(',');
+        if (comma != string::npos){
+            bookTitle = line.substr(0, comma);
+            line = line.substr(comma + 1);
+            comma = line.find(',');
+
+            if (comma != string::npos){
+                bookID = line.substr(0, comma);
+                line = line.substr(comma + 1);
+
+                // Set the book status to the remaining part of the line
+                bookStatus = line;
+            } else {
+                bookID = line;
+                // Sets default checkout status to "0" (In Library) if the book does not contain any status
+                bookStatus = "0";
+            }   
+        } else {
+            // Default ISBN when there is no ISBN in the line
+            bookID = "000-0-00-000000-0";
+            // Default checkout status to "0" (In Library) if missing
+            bookStatus = "0";
+        }
+
+        vector<string> bookInformation;
+        bookInformation.push_back(bookTitle);
+        bookInformation.push_back(bookID);
+        bookInformation.push_back(bookStatus);
+        library.push_back(bookInformation);
+        numOfLines++;
+    }
+    readFile.close();
+    return numOfLines;
 }
