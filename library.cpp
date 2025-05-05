@@ -273,3 +273,30 @@ void printMenu(){
     cout << "S - Search For A Library Entry" << endl;    
     cout << "X - Exit Program" << endl; 
 }
+
+// Removes books from library (can be remove by bookTitle(1) or ISBN(2))
+void removeEntry(vector<vector<string> > &library, const string &searchBook, int removalCriteria){
+    bool found = false;
+    int lastMatchingIndex = -1;
+
+    for (size_t i = 0; i < library.size(); i++){
+        string bookTitle = library[i][0];
+        string bookID = library[i][1];
+
+        if ((removalCriteria == 1 && bookTitle == searchBook) || (removalCriteria == 2 && isValidISBN(bookID) && bookID == searchBook)){
+            lastMatchingIndex = i;
+            found = true;
+        }
+    }
+    
+    if (found){
+        cout << "The Following Entry Was Removed From The Library" << endl;
+        cout << "------------------------------------------------" << endl;
+        cout << library[lastMatchingIndex][0] << " --- " << library[lastMatchingIndex][1] << " --- In Library" << endl;
+        library.erase(library.begin() + lastMatchingIndex); // Remove the last matching entry
+    } else {
+        cout << "The Following Entry Was Removed From The Library" << endl;
+        cout << "------------------------------------------------" << endl;
+        cout << "No matching entry found in the library." << endl;
+    }
+}
