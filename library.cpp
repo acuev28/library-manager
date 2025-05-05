@@ -257,3 +257,19 @@ void printInvalidEntries(const vector<vector<string> > &library){
         cout << "The library has no invalid entries." << endl;
     }
 }
+
+// Print out the main menu of the management system
+void printMenu(){
+    cout << "Library Management Menu" << endl;
+    cout << "-----------------------" << endl;
+    cout << "A - Add Item To Library" << endl; 
+    cout << "C - Clear The Library Of All Entries" << endl;
+    cout << "D - Display Library Entries" << endl;
+    cout << "I - List Invalid Library Entries" << endl;
+    cout << "L - Load Library From File" << endl; 
+    cout << "O - Output Library To File" << endl; 
+    cout << "P - Print Out Checkout Stats" << endl; 
+    cout << "R - Remove A Library Entry" << endl;      
+    cout << "S - Search For A Library Entry" << endl;    
+    cout << "X - Exit Program" << endl; 
+}
